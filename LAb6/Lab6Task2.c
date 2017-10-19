@@ -28,9 +28,9 @@ int main(void){
 	for (i=0;i<12;i++){checksum+=temp[i];}
 	checksum=checksum%256;
 	sprintf(towrite,"%s%02X\n", temp, checksum1);
+	for(i=0;i<15;i++){uart_trans(towrite[i]);}
 	
-	//**********
-	for(i=0;i<14;i++){uart_trans(towrite[i]);}
+	//*********
 	temp ="\rZD0013C\n";
 	for(i=0;i<9;i++){uart_trans(temp[i]);}
 	return 0;
