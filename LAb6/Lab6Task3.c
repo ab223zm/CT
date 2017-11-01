@@ -41,7 +41,7 @@ int main(void){
 	char towrite[200];
 	
 	//first two lines, faze 1
-	char* temp ="\rAO0001Computer Science,201712345678Computer Technology";
+	char* temp ="\rAO0001Computer Science ,2017 Computer Technology";
 	int i;
 
 	int checksum=0;
