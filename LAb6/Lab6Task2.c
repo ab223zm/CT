@@ -10,7 +10,7 @@
 ;
 ; Hardware: STK600, CPU ATmega2560
 ;
-; Function: Displaying a character on the CyberTech Wall Display
+; Function: Displaying characters on all the CyberTech Wall Display lines.
 ;
 ; Input ports: TX, RX on PIND2, respective PIND3.
 ;
