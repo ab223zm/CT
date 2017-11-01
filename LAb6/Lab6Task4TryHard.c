@@ -39,50 +39,29 @@ void uart_trans(unsigned char data);
 int main(void){
 	uart_int();
 	char towrite[200];
-	
-	//first two lines, faze 1
-	char* temp ="\rAO0001Computer Science ,2017 Computer Technology";
 	int i;
-
 	int checksum=0;
-	for (i=0;i<55;i++){
+	
+	//Faze 1: selection message
+	char* temp ="\rAO0001Select line 0-2";
+	for (i=0;i<(sizeof(temp)+1);i++){
 		checksum+=temp[i];
 		}
 	checksum=checksum%256;
 	sprintf(towrite,"%s%02X\n", temp, checksum);
-	for(i=0;i<58;i++){
+	for(i=0;i<(sizeof(towrite)+3;i++){
 		uart_trans(towrite[i]);
 		}
-		
-	checksum=0;
-	//last line, faze 1
-	temp="\rBO0001Assignment#6";
-	for (i=0;i<20;i++){
-		checksum+=temp[i];
-	}
-	checksum=checksum%256;
-	sprintf(towrite,"%s%02X\n", temp, checksum);
-	for(i=0;i<23;i++){
-		uart_trans(towrite[i]);
-	}
+	    
 	//deafult broadcasting command
 	temp ="\rZD0013C\n";
 	for(i=0;i<9;i++){
 		uart_trans(temp[i]);
 	}
 	
-	_delay_ms(5000);
-	//faze 2, changing last line
+	//Faze 2: character input
 	checksum=0;
-	temp="\rBO0001Ruth and Alex";
-	for (i=0;i<21;i++){
-		checksum+=temp[i];
-		}
-	checksum=checksum%256;
-	sprintf(towrite,"%s%02X\n", temp, checksum);
-	for(i=0;i<24;i++){
-		uart_trans(towrite[i]);
-		}
+	
 	
 	//default broadcasting command
 	temp ="\rZD0013C\n";
@@ -101,4 +80,8 @@ void uart_int(void){
 void uart_trans(unsigned char data){
 	while(!(UCSR1A & (1<<UDRE1)));
 	UDR1 = data;
+}
+	    
+char uart_read(void){
+	
 }
