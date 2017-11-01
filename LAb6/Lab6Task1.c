@@ -1,3 +1,28 @@
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+; 1DT301, Computer Technology I
+; Date: 2017-10-17
+; Author:
+; Student name 1: Ruth Dirnfeld
+; Student name 2: Alexandra Bjäremo
+;
+; Lab number: 6
+; Title: CyberTech Wall Display
+;
+; Hardware: STK600, CPU ATmega2560
+;
+; Function: Displaying a character on the CyberTech Wall Display
+;
+; Input ports: TX, RX on PIND2, respective PIND3.
+;
+; Output ports: CyberTech Wall Display connected to serial port RS232
+;
+; Subroutines: Initialization and transmission routines for the display
+; Included files: m2560def.inc
+;
+; Other information: Clock set at 1,83MHz
+;
+; Changes in program: None.
+;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
 #include<avr/io.h>
 #include<stdio.h>
