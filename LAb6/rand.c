@@ -16,51 +16,37 @@ void broadcast();
 
 int main(void) {
 	uart_int();
-	char displThis [4][30];
-	//inchar, memory;
-	char tmp[100];
-	int line=0;
-	//int lengths[4]={0, 0, 0, 0};
-
-	memory='A';
-	printout('A', "Enter chars on PuTTY>");
-	printout('B', " ");
+	char displThis [2][30];
+	char message[30];
+	int j=0;
+	char mssg;
+	char line='A';
+	display(line, "Enter chars on PuTTY");
 	broadcast();
 
 	while (1)
 	{
-		inchar=uart_read();
-		inchars[currentline][lengths[currentline]]=inchar;
-		lengths[currentline]++;
-		// Line change sequence .
-		if(inchar=='/'|| inchar=='>'){
-			if (inchar=='>') {
-				inchar= uart_read();
-				currentline=(int)(inchar-49)%3;
+		mssg=uart_read();
+		if(mssg=='1'|| mssg=='2'|| mssg=='3'){
+			if (mssg=='1'){
+				displThis[0][j]=mssg;
+				message[j]=displThis[0][j];
+				displThis[0][j++];
 			}
-			else
-			currentline=(currentline+1)%3;
-
-			if(lengths[currentline]!=0){
-				memset(inchars[currentline], 0, strlen(inchars[currentline])) ;
-				lengths[currentline]=0;
+			else if (mssg=='2'){
+				displThis[1][j]=mssg;
+				message[j]=displThis[0][j];
+				displThis[1][j++];
 			}
+			else {
+				displThis[2][j]=mssg;
+				message[j]=displThis[2][j];
+				displThis[2][j++];
+				line='B';
+			}
+		display(line,message);
 		}
-
-		if(currentline!=2){
-			memory='A';
-			strcpy(tmp, customconcat(inchars[0], inchars[1]));
-			printout(memory,tmp);
-			memset(tmp, 0, strlen(tmp));
-		}
-		else {
-			memory='B';
-			// strcpy ( tmp , inchars [currentline]) ;
-			printout(memory, inchars[currentline]) ;
-		}
-		display();
-	}
-
+		
 	return 0;
 }
 
@@ -77,18 +63,19 @@ char uart_read(){
 	return UDR1;
 }
 
-void display(char memory, char* inchar) {
-	int i, checksum;
-	char temp[100]="\rAO0001";
-	temp[2]=memory;
-	strcat(temp,inchar);
-	checksum=0;
-	for(i=0; i<sizeof(temp);i++){
-		checksum+=temp[i];
+void display(char line, char message) {
+	int i;
+	int checksum=0;
+	char displmssg[30]="\rAO001";
+	address[2]=line;
+	sprintf(dispmssg, "%s%02X\n",message);
+	for(i=0; i<sizeof(dispmssg);i++){
+		checksum+=dispmssg[i];
 	}
 	checksum%=256;
+	
 	char towrite[100];
-	sprintf(towrite, "%s%02X\n", temp, checksum);
+	sprintf(towrite, "%s%02X\n", dispmssg, checksum);
 	for(i=0; i<sizeof(towrite); i++){
 		uart_trans(towrite[i]);
 	}
@@ -100,18 +87,6 @@ void broadcast(){
 	for(i=0; i<9;i++){
 		uart_trans(temp[i]);
 	}
-}
-char* customconcat(char* inchar1, char* inchar2) {
-	char toreturn[100];
-	strcpy(toreturn, inchar1);
-	if(strlen(toreturn)<24){
-		int i;
-		for(i=strlen(toreturn); i<24; i++){
-			strcat(toreturn," ");
-		}
-	}
-	strcat(toreturn, inchar2);
-	return toreturn;
 }
 /*
 #include<avr/io.h>
