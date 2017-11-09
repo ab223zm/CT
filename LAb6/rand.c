@@ -12,19 +12,20 @@ void uart_trans(unsigned char data);
 void printout(char memory, char* inchar);
 char* customconcat(char* inchar1, char* inchar2);
 char uart_read();
-void display();
+void broadcast();
 
 int main(void) {
 	uart_int();
-	char inchars [4][100], inchar, memory;
+	char displThis [4][30];
+	//inchar, memory;
 	char tmp[100];
-	int currentline=0;
-	int lengths[4]={0, 0, 0, 0};
+	int line=0;
+	//int lengths[4]={0, 0, 0, 0};
 
 	memory='A';
 	printout('A', "Enter chars on PuTTY>");
 	printout('B', " ");
-	display();
+	broadcast();
 
 	while (1)
 	{
@@ -76,7 +77,7 @@ char uart_read(){
 	return UDR1;
 }
 
-void printout(char memory, char* inchar) {
+void display(char memory, char* inchar) {
 	int i, checksum;
 	char temp[100]="\rAO0001";
 	temp[2]=memory;
@@ -93,7 +94,7 @@ void printout(char memory, char* inchar) {
 	}
 }
 
-void display(){
+void broadcast(){
 	int i;
 	char* temp="\rZD0013C\n";
 	for(i=0; i<9;i++){
